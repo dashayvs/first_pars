@@ -1,6 +1,9 @@
 import requests
 from bs4 import BeautifulSoup
 
+price_list=[]
+link_list=[]
+
 for p in range(1, 26):
     url = f'https://www.olx.ua/nedvizhimost/kvartiry/prodazha-kvartir/kiev/?page={p}'
     page = requests.get(url)
@@ -28,4 +31,7 @@ for p in range(1, 26):
                         if j.isnumeric() == False:
                              rooms = rooms.replace(j, '')
                     if int(rooms)==3:
-                        print(link, price.strip())
+                        #print(link, price.strip())
+                        price_list.append(price.strip())
+                        link_list.append(link)
+print(price_list)
