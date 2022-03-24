@@ -57,16 +57,21 @@ def dataframe():
        'Link':sorted_link,
        'Price':sorted_price
       },index=range(1,len(sorted_price)+1))
-    #data.pd.set_option('display.max_colwidth', None)
-    #max_len_price=len(max(sorted_price,key=len))
-    #max_len_link=len(max(sorted_link,key=len))
-
     return data
 
 get_link_price()
 sort()
 
-writer = pd.ExcelWriter('flats.xlsx')
-dataframe().to_excel(writer)
-writer.save()
-print('DataFrame is written successfully to Excel File.')
+
+max_len_price=len(max(sorted_price,key=len))
+max_len_link=len(max(sorted_link,key=len))
+
+def save_xlsx():
+    writer = pd.ExcelWriter('flats.xlsx')
+    dataframe().to_excel(writer, sheet_name='my_analysis', na_rep='NaN')
+    writer.sheets['my_analysis'].set_column(1, 1, max_len_link)
+    writer.sheets['my_analysis'].set_column(2, 2, max_len_price)
+    writer.save()
+    print('DataFrame is written successfully to Excel File.')
+
+save_xlsx()
